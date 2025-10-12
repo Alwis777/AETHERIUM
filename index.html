@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetherium Dynamics | The Future of Living Architecture</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;700&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ------------------- */
+        /* --- ROOT & SETUP -- */
+        /* ------------------- */
+        :root {
+            --color-bg: #0F0F0F;
+            --color-surface: #1C1C1C;
+            --color-primary: #00A86B; /* Emerald Green */
+            --color-secondary: #FFBF00; /* Amber */
+            --color-text: #F0F0F0;
+            --color-text-muted: #B0B0B0;
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Exo 2', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: none; /* Hide default cursor */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 0; /* More vertical padding */
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        h1 { font-size: 4.5rem; line-height: 1.1; }
+        h2 { font-size: 3rem; margin-bottom: 2rem; color: var(--color-text); }
+        h3 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--color-primary); }
+        h4 { font-size: 1.3rem; margin-bottom: 0.8rem; color: var(--color-secondary); }
+        p { margin-bottom: 1.2rem; color: var(--color-text-muted); }
+
+        a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover { color: var(--color-primary); }
+
+
+        /* ------------------- */
+        /* --- CUSTOM CURSOR - */
+        /* ------------------- */
+        .cursor {
+            position: fixed;
+            width: 30px; /* Slightly larger */
+            height: 30px;
+            border: 2px solid var(--color-secondary);
+            border-radius: 50%;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: width 0.3s ease-out, height 0.3s ease-out, background-color 0.3s ease-out;
+        }
+
+        .cursor.grow {
+            width: 50px; /* More pronounced grow */
+            height: 50px;
+            background-color: rgba(255, 191, 0, 0.2);
+            border-color: var(--color-primary);
+        }
+        
+        .cursor-dot {
+            position: fixed;
+            width: 6px; /* Slightly larger */
+            height: 6px;
+            background-color: var(--color-secondary);
+            border-radius: 50%;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: background-color 0.3s ease-out;
+        }
+        .cursor.grow + .cursor-dot {
+            background-color: var(--color-primary);
+        }
+
+
+        /* ------------------- */
+        /* --- HEADER & NAV -- */
+        /* ------------------- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.4s ease-in-out, backdrop-filter 0.4s ease-in-out;
+        }
+        
+        .main-header.scrolled {
+            background-color: rgba(28, 28, 28, 0.8);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .logo span { color: var(--color-primary); }
+
+        .main-nav a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 8px; /* More space for underline */
+            letter-spacing: 0.5px;
+        }
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-secondary);
+            transition: width 0.3s ease-out, background-color 0.3s ease-out;
+        }
+        .main-nav a:hover::after { 
+            width: 100%; 
+            background-color: var(--color-primary);
+        }
+        .main-nav a:hover {
+            color: var(--color-text);
+        }
+
+        /* ------------------- */
+        /* --- HERO SECTION -- */
+        /* ------------------- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background-color: var(--color-bg);
+            overflow: hidden;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero-content h1 {
+            color: var(--color-text);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 800;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInTop 1s ease-out forwards 0.5s;
+        }
+        
+        .hero-content h1 .highlight {
+            color: var(--color-primary);
+            display: block;
+            font-size: 7rem; /* Larger highlight */
+            letter-spacing: 0px;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.3rem;
+            color: var(--color-text-muted);
+            margin: 1.5rem auto 0;
+            max-width: 700px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInTop 1s ease-out forwards 0.8s;
+        }
+
+        @keyframes fadeInTop {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 40px; /* Slightly higher */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            animation: bounce 2s infinite, fadeInTop 1s ease-out forwards 1.2s;
+        }
+        .scroll-down::after {
+            content: '';
+            position: absolute;
+            top: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 50px;
+            background-color: var(--color-secondary);
+            animation: scroll-indicator 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @keyframes scroll-indicator {
+            0% { transform: translateX(-50%) scaleY(0); transform-origin: top; opacity: 0; }
+            50% { transform: translateX(-50%) scaleY(1); transform-origin: top; opacity: 1; }
+            51% { transform: translateX(-50%) scaleY(1); transform-origin: bottom; opacity: 1; }
+            100% { transform: translateX(-50%) scaleY(0); transform-origin: bottom; opacity: 0; }
+        }
+
+        /* ------------------- */
+        /* - SECTION STYLING - */
+        /* ------------------- */
+        section {
+            padding: 6rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: var(--color-bg);
+        }
+        section:last-of-type { border-bottom: none; }
+
+        .section-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+        .section-intro h2 { color: var(--color-text); }
+        .section-intro p { font-size: 1.1rem; }
+
+        /* Our Process Section (SVG Animation) */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem; /* More space */
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        #process-svg {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+        }
+
+        #process-svg path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 2s ease-in-out;
+            stroke-linecap: round;
+        }
+        
+        #process-svg.visible path {
+            stroke-dashoffset: 0;
+        }
+
+        .process-step h3 { 
+            color: var(--color-secondary);
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .process-step p { font-size: 1rem; color: var(--color-text-muted); }
+        
+        /* ------------------- */
+        /* --- PROJECTS GRID - */
+        /* ------------------- */
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping */
+            justify-content: center;
+            gap: 1.5rem; /* More space */
+            margin-bottom: 4rem;
+        }
+
+        .filter-btn {
+            background: none;
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            padding: 0.8rem 2rem;
+            cursor: none;
+            transition: all 0.3s ease-out;
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-radius: 5px;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--color-primary);
+            color: var(--color-bg);
+            box-shadow: 0 0 20px rgba(0, 168, 107, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem; /* More pronounced gap */
+        }
+
+        .project-card {
+            background: var(--color-surface);
+            overflow: hidden;
+            position: relative;
+            cursor: none;
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, opacity 0.5s ease;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .project-card.hide {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+            height: 0;
+            margin-bottom: 0;
+            padding: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease, height 0.5s ease, margin-bottom 0.5s ease, padding 0.5s ease;
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 280px; /* Taller images */
+            object-fit: cover;
+            transition: transform 0.5s ease-out;
+        }
+
+        .project-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .project-info {
+            padding: 1.5rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(15, 15, 15, 0.95) 40%, transparent);
+            transform: translateY(calc(100% - 70px)); /* Shows title initially */
+            transition: transform 0.4s ease-out;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .project-card:hover .project-info {
+            transform: translateY(0);
+        }
+
+        .project-info h3 {
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+        
+        .project-info p { 
+            color: var(--color-text-muted); 
+            font-size: 0.9rem; 
+            margin-bottom: 0; 
+            opacity: 0;
+            transition: opacity 0.3s ease-out 0.1s;
+        }
+        .project-card:hover .project-info p { opacity: 1; }
+
+        .project-category {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background-color: var(--color-secondary);
+            color: var(--color-bg);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 3px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* ------------------- */
+        /* --- PROJECT MODAL - */
+        /* ------------------- */
+        .project-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .project-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--color-surface);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+            padding-bottom: 2rem; /* space for scroll */
+        }
+        .project-modal.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: sticky; /* Make it sticky */
+            top: 10px; /* Position it from the top */
+            right: 10px;
+            background: var(--color-primary);
+            color: var(--color-bg);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            z-index: 10001; /* Above other modal content */
+            margin-left: auto; /* Push to the right */
+            margin-right: 10px; /* Small margin from right edge */
+            margin-top: 10px; /* Small margin from top edge */
+        }
+        .modal-close:hover {
+            background-color: var(--color-secondary);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 0 3rem 3rem; /* Adjusted padding */
+            text-align: left;
+        }
+
+        .modal-body img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .modal-body h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+        }
+
+        .modal-body .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+        }
+        .modal-body .project-meta span strong {
+            color: var(--color-secondary);
+            font-weight: 700;
+            margin-right: 5px;
+        }
+        
+        /* ------------------- */
+        /* --- FOOTER -------- */
+        /* ------------------- */
+        footer {
+            text-align: center;
+            padding: 5rem 0; /* More padding */
+            color: var(--color-text-muted);
+            background-color: var(--color-surface); /* Darker footer */
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+        }
+        
+        .footer-logo span { color: var(--color-primary); }
+
+        .footer-links {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+        .footer-links a:hover { color: var(--color-secondary); }
+        
+        .footer-credit {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+
+        /* ------------------- */
+        /* -- SCROLL ANIMATIONS (Intersection Observer) -- */
+        /* ------------------- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-on-scroll {
+            transition-delay: var(--stagger-delay, 0s);
+        }
+
+        /* ------------------- */
+        /* - RESPONSIVENESS -- */
+        /* ------------------- */
+        @media (max-width: 900px) {
+             .hero-content h1 { font-size: 3rem; letter-spacing: 2px; }
+             .hero-content h1 .highlight { font-size: 5rem; }
+             .hero-content .subtitle { font-size: 1.1rem; }
+             h2 { font-size: 2.2rem; }
+             h3 { font-size: 1.5rem; }
+             .main-nav a { margin-left: 1.5rem; }
+             .projects-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+             .modal-body { padding: 0 1.5rem 1.5rem; }
+        }
+
+        @media (max-width: 768px) {
+             .main-nav { display: none; /* Simplification for smaller screens */ }
+             .main-header { padding: 1rem 5%; }
+             .logo { font-size: 1.5rem; }
+
+             h1 { font-size: 2.5rem; }
+             h1 .highlight { font-size: 4rem; }
+             .hero-content .subtitle { font-size: 1rem; }
+
+             .container { padding: 4rem 0; }
+             
+             .process-grid { grid-template-columns: 1fr; gap: 2rem; }
+             #process-svg { order: -1; margin-bottom: 1.5rem; }
+             .process-step { text-align: left; } /* Align process steps left on mobile */
+             
+             .filter-buttons { margin-bottom: 2.5rem; gap: 1rem; }
+             .filter-btn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+             
+             .cursor, .cursor-dot { display: none; } /* Hide custom cursor on touch devices */
+             body { cursor: auto; }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            h1 .highlight { font-size: 3.5rem; }
+            h2 { font-size: 1.8rem; }
+            .hero-content .subtitle { font-size: 0.9rem; }
+            .project-info { transform: translateY(calc(100% - 60px)); }
+            .project-info h3 { font-size: 1.2rem; }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Header -->
+    <header class="main-header" id="main-header">
+        <a href="#" class="logo cursor-hover">Aetherium<span>.</span></a>
+        <nav class="main-nav">
+            <a href="#about" class="cursor-hover">About</a>
+            <a href="#process" class="cursor-hover">Process</a>
+            <a href="#projects" class="cursor-hover">Projects</a>
+            <a href="#contact" class="cursor-hover">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-content">
+            <h1>We Forge The <span class="highlight">Living</span> Future</h1>
+            <p class="subtitle">I am Isuri Alwis. Welcome to Aetherium Dynamics, where we merge biology and architecture to create self-sustaining, adaptive structures that breathe life into our cities.</p>
+        </div>
+        <div class="scroll-down">SCROLL</div>
+    </section>
+
+    <!-- Main Content Wrapper -->
+    <main>
+        <!-- About Section -->
+        <section id="about" class="container">
+            <div class="section-intro animate-on-scroll">
+                <h2>Redefining Construction</h2>
+                <p>We've moved beyond concrete and steel. Our proprietary bio-integration technology allows us to cultivate buildings that grow, heal, and adapt to their environment, creating a harmonious balance between human innovation and nature.</p>
+            </div>
+            
+            <div class="animate-on-scroll" style="--stagger-delay: 0.3s;">
+                <h3>Our Vision for Tomorrow</h3>
+                <p>Imagine cities where buildings are dynamic ecosystems, silently filtering air, managing water, and producing energy. This isn't science fiction; it's the core mission of Aetherium Dynamics. We are pioneering a new era of architecture, where structures are alive, intelligent, and deeply integrated with the planetary biosphere.</p>
+                <p>Our multidisciplinary team of biologists, architects, engineers, and AI specialists collaborates to push the boundaries of what's possible, ensuring every project is a testament to sustainable innovation.</p>
+            </div>
+        </section>
+        
+        <!-- Our Process Section -->
+        <section id="process" class="container">
+             <div class="section-intro animate-on-scroll">
+                <h2>Our Symbiotic Process</h2>
+                <p>From digital seed to living metropolis, our process is a meticulous blend of computational design and organic cultivation.</p>
+            </div>
+            <div class="process-grid">
+                <div class="process-step animate-on-scroll" style="--stagger-delay: 0.1s;">
+                    <h3>1. Biotic Design</h3>
+                    <p>Algorithmic blueprints define the core structure and growth patterns, integrating environmental data for optimal adaptation.</p>
+                </div>
+                <div class="process-step animate-on-scroll" style="--stagger-delay: 0.2s;">
+                     <!-- This is the animated SVG -->
+                     <svg id="process-svg" viewBox="0 0 400 100" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:var(--color-secondary);stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:var(--color-primary);stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M 50 50 C 100 20, 150 20, 200 50 S 250 80, 300 50" stroke="url(#grad1)" stroke-width="4" fill="none"/>
+                         <circle cx="50" cy="50" r="8" fill="var(--color-secondary)"/>
+                         <circle cx="200" cy="50" r="8" fill="var(--color-primary)"/>
+                         <circle cx="300" cy="50" r="8" fill="var(--color-secondary)"/>
+                    </svg>
+                </div>
+                <div class="process-step animate-on-scroll" style="--stagger-delay: 0.3s;">
+                    <h3>2. Accelerated Cultivation</h3>
+                    <p>The structure is grown in our advanced bio-reactors, forming resilient, self-healing organic materials from cellular matrices.</p>
+                </div>
+                 <div class="process-step animate-on-scroll" style="--stagger-delay: 0.4s;">
+                    <h3>3. Intelligent Integration</h3>
+                    <p>The living framework is integrated with smart systems, AI, and sensor networks for a fully adaptive, self-managing habitat.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="container">
+            <div class="section-intro animate-on-scroll">
+                <h2>Project Showcase</h2>
+                <p>Explore our groundbreaking work that is already reshaping the world's skylines and ecosystems. Each project is a testament to sustainable innovation.</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-buttons animate-on-scroll">
+                <button class="filter-btn active cursor-hover" data-filter="all">All Projects</button>
+                <button class="filter-btn cursor-hover" data-filter="residential">Residential</button>
+                <button class="filter-btn cursor-hover" data-filter="commercial">Commercial</button>
+                <button class="filter-btn cursor-hover"  data-filter="public">Public Spaces</button>
+                <button class="filter-btn cursor-hover"  data-filter="research">Research & Development</button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="projects-grid">
+                <div class="project-card animate-on-scroll" data-category="residential" data-project-id="1" style="--stagger-delay: 0.1s;">
+                    <img src="arcology.png" alt="Arcology One">
+                    <div class="project-info">
+                        <h3>Arcology One</h3>
+                        <p>A self-contained residential spire with integrated vertical farms.</p>
+                    </div>
+                    <span class="project-category">Residential</span>
+                </div>
+                <div class="project-card animate-on-scroll" data-category="commercial" data-project-id="2" style="--stagger-delay: 0.2s;">
+                    <img src="hive.png" alt="The Hive">
+                    <div class="project-info">
+                        <h3>The Hive</h3>
+                        <p>Dynamic commercial hub with adaptable office spaces and bio-filtration.</p>
+                    </div>
+                    <span class="project-category">Commercial</span>
+                </div>
+                 <div class="project-card animate-on-scroll" data-category="public" data-project-id="3" style="--stagger-delay: 0.3s;">
+                    <img src="pavilion.png" alt="Solaris Pavilion">
+                    <div class="project-info">
+                        <h3>Solaris Pavilion</h3>
+                        <p>A public park structure that generates power from advanced photosynthesis.</p>
+                    </div>
+                     <span class="project-category">Public</span>
+                </div>
+                 <div class="project-card animate-on-scroll" data-category="residential" data-project-id="4" style="--stagger-delay: 0.4s;">
+                    <img src="eden.png" alt="Project Eden">
+                    <div class="project-info">
+                        <h3>Project Eden</h3>
+                        <p>Suburban homes grown from native flora, fully integrated with local ecosystems.</p>
+                    </div>
+                     <span class="project-category">Residential</span>
+                </div>
+                <div class="project-card animate-on-scroll" data-category="commercial" data-project-id="5" style="--stagger-delay: 0.1s;">
+                    <img src="camp.png" alt="Nova Nexus">
+                    <div class="project-info">
+                        <h3>Nova Nexus</h3>
+                        <p>Interconnected corporate campuses designed for peak bio-efficiency.</p>
+                    </div>
+                    <span class="project-category">Commercial</span>
+                </div>
+                <div class="project-card animate-on-scroll" data-category="research" data-project-id="6" style="--stagger-delay: 0.2s;">
+                    <img src="dome.png" alt="Bio-Dome Labs">
+                    <div class="project-info">
+                        <h3>Bio-Dome Labs</h3>
+                        <p>State-of-the-art research facility for advanced bio-architecture studies.</p>
+                    </div>
+                    <span class="project-category">Research</span>
+                </div>
+                <div class="project-card animate-on-scroll" data-category="public" data-project-id="7" style="--stagger-delay: 0.3s;">
+                    <img src="eco.png" alt="Eco Corridor">
+                    <div class="project-info">
+                        <h3>Eco-Corridor</h3>
+                        <p>Urban greenway system with self-purifying air and water infrastructure.</p>
+                    </div>
+                    <span class="project-category">Public</span>
+                </div>
+                <div class="project-card animate-on-scroll" data-category="residential" data-project-id="8" style="--stagger-delay: 0.4s;">
+                    <img src="tower.png" alt="Aether Spire">
+                    <div class="project-info">
+                        <h3>Aether Spire</h3>
+                        <p>High-rise residential tower with integrated environmental controls.</p>
+                    </div>
+                    <span class="project-category">Residential</span>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container animate-on-scroll">
+            <div class="footer-logo">Aetherium<span>.</span></div>
+            <p>This project was developed by Isuri Alwis to showcase modern front-end skills and gain practical experience.</p>
+            <div class="footer-links">
+                <a href="#" class="cursor-hover">LinkedIn</a>
+                <a href="#" class="cursor-hover">Twitter</a>
+                <a href="#" class="cursor-hover">GitHub</a>
+                <a href="mailto:contact@aetherium.com" class="cursor-hover">Email Us</a>
+            </div>
+            <p class="footer-credit">Fictional Concept | © 2077 Aetherium Dynamics</p>
+        </div>
+    </footer>
+
+    <div id="projectModal" class="project-modal">
+        <div class="modal-content">
+            <button class="modal-close cursor-hover">&times;</button>
+            <div class="modal-body">
+                <!-- Project details will be injected here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // ------------------- //
+            // -- CUSTOM CURSOR -- //
+            // ------------------- //
+            const cursor = document.querySelector('.cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+            const hoverElements = document.querySelectorAll('.cursor-hover, button, a, .project-card');
+
+            window.addEventListener('mousemove', e => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                cursorDot.style.left = e.clientX + 'px';
+                cursorDot.style.top = e.clientY + 'px';
+            });
+            
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+            });
+
+            // ------------------- //
+            // -- HEADER SCROLL -- //
+            // ------------------- //
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // ------------------- //
+            // -- HERO CANVAS ANIMATION (More subtle) -- //
+            // ------------------- //
+            const canvas = document.getElementById('hero-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: null, y: null, radius: 150 }; // Increased mouse interaction radius
+            let animationFrameId;
+
+            function setCanvasSize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            setCanvasSize();
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x || Math.random() * canvas.width;
+                    this.y = y || Math.random() * canvas.height;
+                    this.size = Math.random() * 1.5 + 0.5; // Smaller particles
+                    this.baseSpeedX = Math.random() * 0.5 - 0.25; // Slower base movement
+                    this.baseSpeedY = Math.random() * 0.5 - 0.25;
+                    this.speedX = this.baseSpeedX;
+                    this.speedY = this.baseSpeedY;
+                    this.color = `rgba(0, 168, 107, ${Math.random() * 0.5 + 0.2})`; // More transparent emerald
+                }
+                update() {
+                    // Mouse repulsion/attraction
+                    if (mouse.x && mouse.y) {
+                        const dx = mouse.x - this.x;
+                        const dy = mouse.y - this.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < mouse.radius) {
+                            const forceDirectionX = dx / distance;
+                            const forceDirectionY = dy / distance;
+                            const maxForce = 5;
+                            const force = (mouse.radius - distance) / mouse.radius * maxForce;
+                            
+                            this.speedX = this.baseSpeedX - forceDirectionX * force * 0.1; // Repel with less strength
+                            this.speedY = this.baseSpeedY - forceDirectionY * force * 0.1;
+                        } else {
+                            this.speedX = this.baseSpeedX;
+                            this.speedY = this.baseSpeedY;
+                        }
+                    }
+
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    // Wrap particles around if they go off screen
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                    if (this.y > canvas.height) this.y = 0;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                const numberOfParticles = Math.floor((canvas.width * canvas.height) / 8000); // Scale particles with screen size
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            initParticles();
+
+            function handleParticles() {
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                    
+                    // Connect close particles with lines (more subtle)
+                    for (let j = i; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < 80) { // Shorter connection distance
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(255, 191, 0, ${1 - distance/80})`; // Amber with transparency
+                            ctx.lineWidth = 0.3; // Thinner lines
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                handleParticles();
+                animationFrameId = requestAnimationFrame(animate);
+            }
+            animate();
+            
+            window.addEventListener('resize', () => {
+                setCanvasSize();
+                initParticles();
+            });
+
+            canvas.addEventListener('mousemove', (e) => {
+                mouse.x = e.x;
+                mouse.y = e.y;
+            });
+            canvas.addEventListener('mouseleave', () => { // Reset mouse position when leaving canvas
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            // ------------------- //
+            // -- SCROLL ANIMATIONS (Intersection Observer) -- //
+            // ------------------- //
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Adjust threshold for when element becomes visible
+            };
+
+            const observer = new IntersectionObserver((entries, observerInstance) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observerInstance.unobserve(entry.target); // Stop observing after animation for performance
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Special observer for SVG
+            const svgObserver = new IntersectionObserver((entries, svgObserverInstance) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        svgObserverInstance.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, { threshold: 0.7 }); // High threshold for SVG
+            const processSvg = document.getElementById('process-svg');
+            if (processSvg) svgObserver.observe(processSvg);
+
+
+            // ------------------- //
+            // -- PROJECTS FILTER -- //
+            // ------------------- //
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const filter = btn.dataset.filter;
+
+                    projectCards.forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.classList.remove('hide');
+                        } else {
+                            card.classList.add('hide');
+                        }
+                    });
+                });
+            });
+
+            // ------------------- //
+            // -- PROJECT MODAL -- //
+            // ------------------- //
+            const projectModal = document.getElementById('projectModal');
+            const modalCloseBtn = document.querySelector('.modal-close');
+            const modalBody = document.querySelector('.modal-body');
+
+            const projectDetails = {
+                1: {
+                    title: "Arcology One: Vertical Living",
+                    category: "Residential",
+                    date: "2075-2077",
+                    location: "Neo-London",
+                    image: "arcology.png", // store the image path here
+                    description: `Arcology One is our flagship residential project, a self-contained vertical city designed to house over 50,000 inhabitants. Its unique bio-skin actively filters pollutants, produces oxygen, and manages internal climate, creating a thriving micro-ecosystem. Each residential unit is connected to communal vertical farms and hydroponic gardens, ensuring sustainable food sources within the structure itself. The building adapts its light filtration and thermal regulation based on real-time environmental data.`,
+                    features: [
+                        "Self-sustaining ecosystem",
+                        "Integrated vertical farming",
+                        "Dynamic climate control",
+                        "Bio-filtration façade",
+                        "Modular living units"
+                    ]
+                },
+                2: {
+                    title: "The Hive: Dynamic Commercial Hub",
+                    category: "Commercial",
+                    date: "2076",
+                    location: "Tokyo Delta",
+                    image: "hive.png", // store the image path here
+                    description: `The Hive represents the next generation of commercial architecture. This complex features interconnected, adaptive office modules that can reconfigure their layout and functionality based on tenant needs and daylight optimization. Its biomimetic structure draws inspiration from insect colonies, allowing for efficient energy distribution and internal ventilation through natural convection. The exterior pulsates with bioluminescent panels that generate energy and provide ambient light, reducing reliance on conventional power grids.`,
+                    features: [
+                        "Adaptive office modules",
+                        "Biomimetic energy efficiency",
+                        "Bioluminescent power generation",
+                        "Modular and reconfigurable spaces",
+                        "Advanced bio-filtration systems"
+                    ]
+                },
+                3: {
+                    title: "Solaris Pavilion: Public Energy Park",
+                    category: "Public",
+                    date: "2074",
+                    location: "Central Park, New York",
+                    image: "pavilion.png", // store the image path here
+                    description: `The Solaris Pavilion is a breathtaking public installation designed to educate and inspire. Its enormous, organic canopy is comprised of genetically engineered algae panels that perform advanced photosynthesis, generating clean energy for the surrounding urban area. Below, interactive exhibits explain the principles of bio-architecture, while lush, cultivated gardens offer a serene escape. The pavilion demonstrates how large-scale living structures can integrate seamlessly into public spaces, providing both aesthetic beauty and critical environmental services.`,
+                    features: [
+                        "Photosynthetic energy generation",
+                        "Interactive educational exhibits",
+                        "Self-purifying water features",
+                        "Public green space integration",
+                        "Atmospheric carbon capture"
+                    ]
+                },
+                4: {
+                        title: "Project Eden: Harmonious Residences",
+                        category: "Residential",
+                        date: "2073-2075",
+                        location: "Pacific Northwest",
+                        image: "eden.png", // store the image path here
+                        description: `Project Eden redefines suburban living by cultivating homes directly from regional flora. Each residence is grown using a unique bio-fabrication process, resulting in structures that are deeply integrated with their natural surroundings. These homes boast active root systems that stabilize soil, natural climate regulation through porous walls, and contribute to local biodiversity. Residents experience unparalleled connection to nature, with structures that literally breathe and grow with their environment.`,
+                        features: [
+                        "Bio-fabricated, growing homes",
+                        "Native flora integration",
+                        "Natural climate regulation",
+                        "Minimal environmental footprint",
+                        "Enhanced biodiversity"
+                        ]
+                },
+                5: {
+                    title: "Nova Nexus: Corporate Bio-Campus",
+                    category: "Commercial",
+                    date: "2076-2078",
+                    location: "Silicon Valley",
+                    image: "https://images.unsplash.com/photo-1519904245172-b26a881335b1?q=80&w=1920",
+                    description: `Nova Nexus is a sprawling corporate bio-campus, designed for companies at the forefront of innovation. Its modular buildings are connected by elevated 'sky-gardens' and bioluminescent pathways, fostering collaboration and employee well-being. The entire campus acts as a single organism, with centralized AI monitoring and optimizing energy flow, waste recycling, and air quality across all structures. It's a living workspace that adapts to the needs of its inhabitants and the planet.`,
+                    features: [
+                        "Interconnected living structures",
+                        "Centralized AI environmental control",
+                        "Bioluminescent pathways",
+                        "Waste-to-energy conversion",
+                        "Dynamic air quality management"
+                    ]
+                },
+                6: {
+                    title: "Bio-Dome Labs: Research & Cultivation",
+                    category: "Research",
+                    date: "2070-Present",
+                    location: "Global Research Network",
+                    image: "dome.png",
+                    description: `The Bio-Dome Labs are our network of advanced research facilities, purpose-built for the cultivation and study of new bio-architectural materials and systems. Each dome is a hermetically sealed environment where living structures are grown under accelerated conditions and tested for resilience, adaptability, and sustainability. These labs are crucial for pushing the boundaries of what Aetherium Dynamics can achieve, from drought-resistant facades to self-repairing infrastructure.`,
+                    features: [
+                        "Accelerated bio-cultivation",
+                        "Hermetically sealed research environments",
+                        "Material resilience testing",
+                        "AI-driven growth optimization",
+                        "Modular lab units"
+                    ]
+                },
+                7: {
+                    title: "Eco-Corridor: Urban Regeneration",
+                    category: "Public",
+                    date: "2075",
+                    location: "Sao Paulo",
+                    image: "eco.png",
+                    description: `The Eco-Corridor project transformed a congested urban district into a vibrant, living artery. This initiative involved retrofitting existing structures with bio-integrated facades and creating new public spaces that are biologically active. The corridor features self-purifying water channels, biodiverse plant life that attracts local wildlife, and passive cooling systems derived from organic structures. It's a testament to how urban areas can be rewilded and made healthier through thoughtful bio-architecture.`,
+                    features: [
+                        "Urban rewilding and greening",
+                        "Bio-integrated facade retrofits",
+                        "Self-purifying water systems",
+                        "Enhanced public biodiversity",
+                        "Passive cooling infrastructure"
+                    ]
+                },
+                8: {
+                    title: "Aether Spire: Climate Adaptive Tower",
+                    category: "Residential",
+                    date: "2077-Ongoing",
+                    location: "Dubai",
+                    image: "tower.png",
+                    description: `The Aether Spire is a monumental residential tower designed to thrive in extreme climates. Its living skin dynamically adjusts its porosity and hydration to regulate internal temperatures and humidity, drastically reducing energy consumption. The spire also features integrated air moisture harvesting and desalinization systems, making it largely self-sufficient for water in arid environments. This project pushes the limits of environmental resilience in living architecture.`,
+                    features: [
+                        "Dynamic living skin",
+                        "Integrated air moisture harvesting",
+                        "Desalinization systems",
+                        "Extreme climate resilience",
+                        "Energy-neutral operation"
+                    ]
+                }
+            };
+
+            projectCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const projectId = card.dataset.projectId;
+                    const details = projectDetails[projectId];
+                    
+                    if (details) {
+                        modalBody.innerHTML = `
+                            <img src="${details.image}" alt="${details.title}">
+                            <h3>${details.title}</h3>
+                            <div class="project-meta">
+                                <span><strong>Category:</strong> ${details.category}</span>
+                                <span><strong>Timeline:</strong> ${details.date}</span>
+                                <span><strong>Location:</strong> ${details.location}</span>
+                            </div>
+                            <p>${details.description}</p>
+                            <h4>Key Features:</h4>
+                            <ul>
+                                ${details.features.map(feature => `<li>${feature}</li>`).join('')}
+                            </ul>
+                        `;
+                        projectModal.classList.add('active');
+                        document.body.style.overflow = 'hidden'; // Prevent scrolling background
+                    }
+                });
+            });
+
+            modalCloseBtn.addEventListener('click', () => {
+                projectModal.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+
+            // Close modal if clicked outside content
+            projectModal.addEventListener('click', (e) => {
+                if (e.target === projectModal) {
+                    projectModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Keyboard accessibility for modal
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && projectModal.classList.contains('active')) {
+                    projectModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
+
